@@ -1,0 +1,54 @@
+#!/bin/sh
+# Begin /etc/systemd/scripts/iptables
+# Meridian: BLFS personal firewall + LAN SSH + IPv6
+
+LAN=192.168.0.0/24
+
+modprobe nf_conntrack 2>/dev/null
+modprobe xt_LOG 2>/dev/null
+
+# Kernel network hardening (from BLFS)
+echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts
+echo 0 > /proc/sys/net/ipv4/conf/all/accept_source_route
+echo 0 > /proc/sys/net/ipv4/conf/default/accept_source_route
+echo 1 > /proc/sys/net/ipv4/tcp_syncookies
+echo 0 > /proc/sys/net/ipv4/conf/all/accept_redirects
+echo 0 > /proc/sys/net/ipv4/conf/default/accept_redirects
+echo 0 > /proc/sys/net/ipv4/conf/all/send_redirects
+echo 0 > /proc/sys/net/ipv4/conf/default/send_redirects
+echo 1 > /proc/sys/net/ipv4/conf/all/rp_filter
+echo 1 > /proc/sys/net/ipv4/conf/default/rp_filter
+echo 1 > /proc/sys/net/ipv4/conf/all/log_martians
+echo 1 > /proc/sys/net/ipv4/conf/default/log_martians
+echo 0 > /proc/sys/net/ipv4/ip_forward
+
+# ---- IPv4 ----
+iptables -P INPUT   DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT  ACCEPT
+iptables -F
+iptables -X
+iptables -Z
+
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -m conntrack --ctstate INVALID -j DROP
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -p udp --sport 67 --dport 68 -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -s $LAN -m conntrack --ctstate NEW -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type echo-request -s $LAN -j ACCEPT
+iptables -A INPUT -m limit --limit 5/min -j LOG --log-prefix "FIREWALL:INPUT "
+
+# ---- IPv6 ----
+ip6tables -P INPUT   DROP
+ip6tables -P FORWARD DROP
+ip6tables -P OUTPUT  ACCEPT
+ip6tables -F
+ip6tables -X
+ip6tables -Z
+
+ip6tables -A INPUT -i lo -j ACCEPT
+ip6tables -A INPUT -m conntrack --ctstate INVALID -j DROP
+ip6tables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+ip6tables -A INPUT -p ipv6-icmp -j ACCEPT
+
+# End /etc/systemd/scripts/iptables
