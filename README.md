@@ -7,6 +7,6 @@ A Linux system built from source with Linux From Scratch 13.1 (systemd) and BLFS
 - Linux-PAM with systemd-logind sessions
 - Key-only SSH, default-deny firewall (IPv4 and IPv6), configuration tracked in Git
 
-Full write-up, including 22 documented problems and how they were solved: [docs/build-log.md](docs/build-log.md)
+Full write-up, including 22 documented problems and how they were solved: [docs/lfs-build-log.md](docs/build-log.md)
 
 Configs: [configs/](configs/)
