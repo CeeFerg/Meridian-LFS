@@ -786,8 +786,8 @@ Typing the password at the prompt rather than as an argument keeps it out of she
 Success:
 
 ```
-wpa_supplicant[1704]: wlp0s20f3: WPA: Key negotiation completed with 82:aa:79:e1:66:6d
-wpa_supplicant[1704]: wlp0s20f3: CTRL-EVENT-CONNECTED - Connection to 82:aa:79:e1:66:6d completed
+wpa_supplicant[1704]: wlp0s20f3: WPA: Key negotiation completed with xx:xx:xx:xx:xx:xx
+wpa_supplicant[1704]: wlp0s20f3: CTRL-EVENT-CONNECTED - Connection to xx:xx:xx:xx:xx:xx completed
 
 2: wlp0s20f3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
     inet 192.168.0.12/24 metric 1024 brd 192.168.0.255 scope global dynamic wlp0s20f3
@@ -796,10 +796,10 @@ wpa_supplicant[1704]: wlp0s20f3: CTRL-EVENT-CONNECTED - Connection to 82:aa:79:e
 On later boots, Wi-Fi associates automatically:
 
 ```
-wlp0s20f3: authenticate with 82:aa:79:e1:66:6d
+wlp0s20f3: authenticate with xx:xx:xx:xx:xx:xx
 wlp0s20f3: authenticated
-wlp0s20f3: associate with 82:aa:79:e1:66:6d (try 1/3)
-wlp0s20f3: RX AssocResp from 82:aa:79:e1:66:6d (capab=0x1131 status=0 aid=13)
+wlp0s20f3: associate with xx:xx:xx:xx:xx:xx (try 1/3)
+wlp0s20f3: RX AssocResp from xx:xx:xx:xx:xx:xx (capab=0x1131 status=0 aid=13)
 wlp0s20f3: associated
 ```
 
